@@ -1,5 +1,8 @@
-import React, { useState } from "react";
-import ColorfulMessage from "./components/ColorfulMessage";
+import React, { useEffect, useState } from "react";
+//import ColorfulMessage from "./components/ColorfulMessage";
+//exportについて
+//分割代入で書く方式のがエラーがわかりやすいのでよい
+import { ColorfulMessage } from "./components/ColorfulMessage";
 
 //jsx Reactのコンポーネント拡張子
 //コンポーネントの命名規則は先頭大文字、javaのクラスファイルと同じ
@@ -21,13 +24,27 @@ import ColorfulMessage from "./components/ColorfulMessage";
 /**
  * state
  *　⇒各コンポーネントが持つ状態。stateが変更されると再レンダリングが入る
+ * useState
  * const [変数名, 変数を変更する関数名(set変数名が一般的)] = useState(初期値);
  * コンポーネント内で動的に変更する部分をuseStateを使う
  */
+
+/**
+ * useEffect、第一引数は関数、第二引数は配列
+ * 第二引数を監視する時に使う
+ * useEffect(() => {}, []);
+ * useEffect(関数, 配列)
+ *
+ * 下記の例だと、numを監視してnumに変更があった場合だけ関数の処理が動き
+ * numに変化が無いとuseEffect全体をスルーするのでレンダリングエラーが起きない
+ * レンダリングエラーが起きないので、on/offボタンのレンダリングが出来る
+ * 第二引数を指定しないと初回だけレンダリングするようにできる
+ */
+
 const App = () => {
   console.log("さいしょ");
   const [num, setNum] = useState(0);
-  const [faceFlag, setFaceFlag] = useState(true);
+  const [faceFlag, setFaceFlag] = useState(false);
 
   const onClickCountUp = () => {
     setNum(num + 1);
@@ -36,11 +53,16 @@ const App = () => {
     setFaceFlag(!faceFlag);
   };
 
-  if (num % 3 === 0) {
-    faceFlag || setFaceFlag(true);
-  } else {
-    faceFlag && setFaceFlag(false);
-  }
+  useEffect(() => {
+    if (num > 0) {
+      if (num % 3 === 0) {
+        faceFlag || setFaceFlag(true);
+      } else {
+        faceFlag && setFaceFlag(false);
+      }
+    }
+    //eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [num]);
 
   return (
     <>

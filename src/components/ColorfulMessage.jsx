@@ -4,7 +4,7 @@ import React from "react";
  * propsを受け取る
  *jsだとオブジェクト名と変数が同じなら: ここ;を省略できる
  */
-const ColorfulMessage = (props) => {
+export const ColorfulMessage = (props) => {
   const { color, children } = props;
   const contentStyle = {
     color,
@@ -17,4 +17,5 @@ const ColorfulMessage = (props) => {
   );
 };
 
-export default ColorfulMessage;
+//export default ColorfulMessage;
+//default使うexport
