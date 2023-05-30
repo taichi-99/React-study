@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ColorfulMessage from "./components/ColorfulMessage";
 
 //jsx Reactのコンポーネント拡張子
@@ -17,15 +17,41 @@ import ColorfulMessage from "./components/ColorfulMessage";
  * propsは名称を付けて渡すこともできる
  * <コンポーネント名>ここにchildren要素としても渡せる</コンポーネント名>
  */
+
+/**
+ * state
+ *　⇒各コンポーネントが持つ状態。stateが変更されると再レンダリングが入る
+ * const [変数名, 変数を変更する関数名(set変数名が一般的)] = useState(初期値);
+ * コンポーネント内で動的に変更する部分をuseStateを使う
+ */
 const App = () => {
-  const onClickButton = () => alert();
+  console.log("さいしょ");
+  const [num, setNum] = useState(0);
+  const [faceFlag, setFaceFlag] = useState(true);
+
+  const onClickCountUp = () => {
+    setNum(num + 1);
+  };
+  const onClickSwichFace = () => {
+    setFaceFlag(!faceFlag);
+  };
+
+  if (num % 3 === 0) {
+    faceFlag || setFaceFlag(true);
+  } else {
+    faceFlag && setFaceFlag(false);
+  }
 
   return (
     <>
       <h1 style={{ color: "red" }}>こんにちは！</h1>
       <ColorfulMessage color="blue">元気ですか</ColorfulMessage>
       <ColorfulMessage color="pink">元気です</ColorfulMessage>
-      <button onClick={onClickButton}>ボタン</button>
+      <button onClick={onClickCountUp}>カウントアップ</button>
+      <br />
+      <button onClick={onClickSwichFace}>on/off</button>
+      <p>{num}</p>
+      {faceFlag && <p>(*^◯^*)</p>}
     </>
   );
 };
